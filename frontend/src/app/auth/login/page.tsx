@@ -1,11 +1,12 @@
 'use client';
 
-import Button from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Eye } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+
+import Button from "@/components/ui/Button";
+import { BaseInput } from "@/components/ui/BaseInput";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 
 type LoginForm = {
     login: string,
@@ -29,20 +30,15 @@ export default function LoginPage() {
             <h2 className="text-2x1 font-bold text-center text-gray-800">Вход</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
-                    <Input
+                    <BaseInput
                         label="Логин"
                         placeholder="Введите логин"
-                    >
-                    </Input>
-                    <Input
+                    />
+                    <PasswordInput
                         label="Пароль"
                         placeholder="Введите пароль"
-                        type="password"
-                        rightIcon={
-                            <Eye className="w-4 h-4"/>
-                        }
-                    >
-                    </Input>
+                        containerClassName="mt-4"
+                    />
                     <div className="flex justify-end">
                         <Link href="" className="text-gray-800 hover:underline font-medium mt-2">Забыли пароль?</Link>
                     </div>
@@ -52,7 +48,7 @@ export default function LoginPage() {
                 </div>
                 <div className="text-center text-gray-800">
                     Нет аккаунта?{'  '}
-                    <Link href={'/auth/register'} className="text-blue-600 hover:underline font-medium">Создайте его!</Link>
+                    <Link href={'/auth/register'} className="text-blue-600 hover:underline font-medium">Создайте его</Link>
                 </div>
             </form>
         </>
