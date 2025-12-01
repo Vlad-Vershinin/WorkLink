@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 import Button from "@/components/ui/Button";
 import { BaseInput } from "@/components/ui/BaseInput";
@@ -16,10 +16,15 @@ type LoginForm = {
 export default function LoginPage() {
     const router = useRouter();
     const {
-        register,
+        control,
         handleSubmit,
         formState: { errors },
-    } = useForm<LoginForm>();
+    } = useForm<LoginForm>({
+        defaultValues: {
+            login: '',
+            password: ''
+        },
+    });
 
     const onSubmit = (data: LoginForm) => {
 
@@ -30,20 +35,50 @@ export default function LoginPage() {
             <h2 className="text-2x1 font-bold text-center text-gray-800">Вход</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
-                    <BaseInput
-                        label="Логин"
-                        placeholder="Введите логин"
+                    <Controller
+                        name="login"
+                        control={control}
+                        rules={{
+                            required: 'Это поле обязательно',
+                            minLength: {
+                                value: 3,
+                                message: 'Логин не должен быть пустым'
+                            }
+                        }}
+                        render={({field}) =>(
+                            <BaseInput
+                                {...field}
+                                label="Логин"
+                                placeholder="Введите логин"
+                                error={errors.login?.message}
+                            />
+                        )}
                     />
-                    <PasswordInput
-                        label="Пароль"
-                        placeholder="Введите пароль"
-                        containerClassName="mt-4"
+                    <Controller
+                        name="password"
+                        control={control}
+                        rules={{
+                            required: 'Это поле обязательно',
+                            minLength: {
+                                value: 3,
+                                message: 'Пароль не должен быть пустым'
+                            }
+                        }}
+                        render={({field}) => (
+                            <PasswordInput
+                                {...field}
+                                label="Пароль"
+                                placeholder="Введите пароль"
+                                containerClassName="mt-4"
+                                error={errors.password?.message}
+                            />
+                        )}
                     />
                     <div className="flex justify-end">
                         <Link href="" className="text-gray-800 hover:underline font-medium mt-2">Забыли пароль?</Link>
                     </div>
                     <div className="flex justify-center">
-                    <Button className="mt-4 px-5">Войти</Button>
+                        <Button className="mt-4 px-5">Войти</Button>
                     </div>
                 </div>
                 <div className="text-center text-gray-800">
